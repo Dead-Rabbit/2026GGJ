@@ -6,23 +6,14 @@ namespace Framework
     {
         public void Awake()
         {
-            GlobalEvent.Instance.OnStart += OnGameStart;
         }
 
         public void Start()
         {
+            GenerateMainPlayer();
+
             GlobalEvent.Instance.OnStart?.Invoke();
         }
-
-        #region 生命周期
-
-        private void OnGameStart()
-        {
-            GenerateMainPlayer();
-        }
-
-        #endregion
-
 
         #region Player
 
