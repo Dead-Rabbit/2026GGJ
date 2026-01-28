@@ -15,6 +15,7 @@ public class PateInstance : MonoBehaviour
     /// 屏幕坐标系下的偏移（像素），在世界坐标转换到屏幕坐标后再加上。
     /// </summary>
     private Vector2 _screenOffset;
+    private Vector3 _worldOffset;
 
     private Camera _worldCamera;
     private Canvas _canvas;
@@ -32,10 +33,11 @@ public class PateInstance : MonoBehaviour
     /// <summary>
     /// 初始化：跟随目标 Transform。
     /// </summary>
-    public void InitForTarget(Transform target, Vector2 screenOffset, Camera worldCamera, Canvas canvas)
+    public void InitForTarget(Transform target, Vector3 worldOffset, Vector2 screenOffset, Camera worldCamera, Canvas canvas)
     {
         _target = target;
         _followTransform = true;
+        _worldOffset = worldOffset;
         _screenOffset = screenOffset;
         _worldCamera = worldCamera;
         _canvas = canvas;
@@ -44,10 +46,11 @@ public class PateInstance : MonoBehaviour
     /// <summary>
     /// 初始化：跟随固定世界坐标点。
     /// </summary>
-    public void InitForWorldPosition(Vector2 worldPosition, Vector2 screenOffset, Camera worldCamera, Canvas canvas)
+    public void InitForWorldPosition(Vector2 worldPosition, Vector3 worldOffset, Vector2 screenOffset, Camera worldCamera, Canvas canvas)
     {
         _worldPosition = worldPosition;
         _followTransform = false;
+        _worldOffset = worldOffset;
         _screenOffset = screenOffset;
         _worldCamera = worldCamera;
         _canvas = canvas;
@@ -108,6 +111,8 @@ public class PateInstance : MonoBehaviour
         {
             baseWorldPos = _worldPosition;
         }
+
+        baseWorldPos += _worldOffset;
 
         // 世界坐标 -> 屏幕坐标
         Vector3 screenPos = _worldCamera.WorldToScreenPoint(baseWorldPos);

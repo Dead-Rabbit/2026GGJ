@@ -10,13 +10,23 @@ public class MainPlayer : CharacterBase
 
     protected override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        MoveDireciton = Vector2.zero;
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            Velocity = new Vector2(1, 0);
+            MoveDireciton.y = 1;
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
-            Velocity = new Vector2(0, 0);
+            MoveDireciton.y = -1;
+        }
+        
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            MoveDireciton.x = -1;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            MoveDireciton.x = 1;
         }
         
         base.Update();

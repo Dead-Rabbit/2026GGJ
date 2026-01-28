@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a09a7338044e889fd113e749bf4eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainPlayer: {fileID: 4927596987530364534, guid: fa470882db0c8224d834dc2e328fad91, type: 3}
   TestPate: {fileID: -3529390215253003593, guid: 84a4ab055bbd5184d92b01a768291235, type: 3}
 --- !u!1 &1937350362
 GameObject:

@@ -52,7 +52,7 @@ public class PateManager : MonoBehaviour
     /// worldOffset：世界坐标系下的偏移（单位：世界单位，比如(0,2,0)表示在目标上方 2 米处）。
     /// screenOffset：屏幕坐标系下的偏移，单位是像素（在世界坐标转换成屏幕坐标后再加上）。
     /// </summary>
-    public PateInstance CreateForTarget(PateInstance patePrefab, Transform target, Vector2 screenOffset)
+    public PateInstance CreateForTarget(PateInstance patePrefab, Transform target, Vector3 worldOffset, Vector2 screenOffset)
     {
         if (patePrefab == null || target == null)
         {
@@ -61,7 +61,7 @@ public class PateManager : MonoBehaviour
         }
 
         PateInstance instance = Instantiate(patePrefab, transform);
-        instance.InitForTarget(target, screenOffset, GetWorldCamera(), GetCanvas());
+        instance.InitForTarget(target, worldOffset, screenOffset, GetWorldCamera(), GetCanvas());
         _instances.Add(instance);
         return instance;
     }
@@ -72,7 +72,7 @@ public class PateManager : MonoBehaviour
     /// worldOffset：世界坐标系下的附加偏移。
     /// screenOffset：屏幕坐标系下的偏移，单位是像素。
     /// </summary>
-    public PateInstance CreateForWorldPosition(PateInstance patePrefab, Vector3 worldPosition, Vector2 screenOffset)
+    public PateInstance CreateForWorldPosition(PateInstance patePrefab, Vector3 worldPosition, Vector3 worldOffset, Vector2 screenOffset)
     {
         if (patePrefab == null)
         {
@@ -81,7 +81,7 @@ public class PateManager : MonoBehaviour
         }
 
         PateInstance instance = Instantiate(patePrefab, transform);
-        instance.InitForWorldPosition(worldPosition, screenOffset, GetWorldCamera(), GetCanvas());
+        instance.InitForWorldPosition(worldPosition, worldOffset, screenOffset, GetWorldCamera(), GetCanvas());
         _instances.Add(instance);
         return instance;
     }

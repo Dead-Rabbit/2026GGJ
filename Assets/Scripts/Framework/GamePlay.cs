@@ -19,7 +19,7 @@ namespace Framework
 
         private void GenerateMainPlayer()
         {
-            var newObject = new GameObject("MainPlayer");
+            var newObject = Object.Instantiate(GlobalConfig.Instance.MainPlayer);
             var mainPlayer = newObject.GetComponent<MainPlayer>();
             if (mainPlayer)
             {
