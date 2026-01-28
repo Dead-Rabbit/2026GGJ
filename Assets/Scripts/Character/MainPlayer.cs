@@ -1,7 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MainPlayer : CharacterBase
 {
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     protected override void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
