@@ -20,8 +20,11 @@ namespace Framework
         private void GenerateMainPlayer()
         {
             var newObject = new GameObject("MainPlayer");
-            var mainPlayer = newObject.AddComponent<MainPlayer>();
-            GlobalGame.Instance.mainPlayer = mainPlayer;
+            var mainPlayer = newObject.GetComponent<MainPlayer>();
+            if (mainPlayer)
+            {
+                GlobalGame.Instance.mainPlayer = mainPlayer;
+            }
         }
 
         #endregion
