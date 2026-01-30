@@ -107,12 +107,26 @@ public class MudFeature : MonoBehaviour
         _mesh.RecalculateBounds();
         _mesh.MarkDynamic();
 
+        // 在子物体上挂 MeshFilter/MeshRenderer，避免与同物体上的 SpriteRenderer 冲突
+        Transform meshRoot = transform.Find("MudMesh");
+        if (meshRoot == null)
+        {
+            GameObject meshGo = new GameObject("MudMesh");
+            meshRoot = meshGo.transform;
+            meshRoot.SetParent(transform, worldPositionStays: false);
+            meshRoot.localPosition = Vector3.zero;
+            meshRoot.localRotation = Quaternion.identity;
+            meshRoot.localScale = Vector3.one;
+        }
+
+        _meshFilter = meshRoot.GetComponent<MeshFilter>();
         if (_meshFilter == null)
-            _meshFilter = gameObject.AddComponent<MeshFilter>();
+            _meshFilter = meshRoot.gameObject.AddComponent<MeshFilter>();
         _meshFilter.mesh = _mesh;
 
+        _meshRenderer = meshRoot.GetComponent<MeshRenderer>();
         if (_meshRenderer == null)
-            _meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            _meshRenderer = meshRoot.gameObject.AddComponent<MeshRenderer>();
         _meshRenderer.sharedMaterial = _spriteRenderer.sharedMaterial;
         _meshRenderer.sortingOrder = _spriteRenderer.sortingOrder;
         _meshRenderer.sortingLayerID = _spriteRenderer.sortingLayerID;
