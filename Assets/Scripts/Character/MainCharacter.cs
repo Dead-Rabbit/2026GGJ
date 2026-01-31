@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class MainCharacter : MonoBehaviour
@@ -13,6 +14,11 @@ public class MainCharacter : MonoBehaviour
     public Transform DefaultRightHandPosition;
     
     public Transform SwitchHandPosition;
+
+    [LabelText("左手模型")] public Transform LeftHand;
+    [LabelText("左手模型_捏")] public Transform LeftHand_HoldItem;
+    [LabelText("右手模型")] public Transform RightHand;
+    [LabelText("右手模型_捏")] public Transform RightHand_HoldItem;
 
     [Header("拾取")]
     [Tooltip("鼠标射线检测用的摄像机，空则用 Main")]
