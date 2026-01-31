@@ -6,7 +6,6 @@ public class PanelEntry : MonoBehaviour
 {
     public void Start()
     {
-        var gameGlobal = GlobalGame.Instance;
     }
 
     /// <summary>

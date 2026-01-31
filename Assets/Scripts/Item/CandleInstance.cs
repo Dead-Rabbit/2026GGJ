@@ -1,4 +1,5 @@
 using System;
+using Framework;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,6 +17,8 @@ public class CandleInstance : MonoBehaviour
 
     public void Start()
     {
+        GamePlay.Instance.CandleInstanceList.Add(this);
+        
         SetBurn(IsBurning);
     }
 

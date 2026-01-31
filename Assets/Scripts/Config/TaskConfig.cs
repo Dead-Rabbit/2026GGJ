@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Config;
 
 public static class TaskConfig
 {
@@ -8,8 +9,6 @@ public static class TaskConfig
         {
             "Burn1", new()
             {
-                DialogicId = 1,
-                DuringTime = 10,
             }
         }
     };
@@ -20,6 +19,7 @@ public static class TaskConfig
     {
         public int DialogicId;
         public float DuringTime;
+
     }
 
     #endregion

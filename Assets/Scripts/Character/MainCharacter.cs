@@ -5,7 +5,14 @@ public class MainCharacter : MonoBehaviour
 {
     [Header("手部")]
     [Tooltip("手部 IK 目标，跟随鼠标；持有物品时会挂在其下")]
-    public Transform HandIK;
+    public Transform LeftHandIK;
+    [Tooltip("手部 IK 目标，跟随鼠标；持有物品时会挂在其下")]
+    public Transform RightHandIK;
+
+    public Transform DefaultLeftHandPosition;
+    public Transform DefaultRightHandPosition;
+    
+    public Transform SwitchHandPosition;
 
     [Header("拾取")]
     [Tooltip("鼠标射线检测用的摄像机，空则用 Main")]
@@ -19,6 +26,7 @@ public class MainCharacter : MonoBehaviour
     private Rigidbody2D _heldRigidbody;
     private bool _heldWasKinematic;
     private bool _heldWasSimulated;
+    private Transform _currentIKHolder;
 
     private void Update()
     {
@@ -28,14 +36,37 @@ public class MainCharacter : MonoBehaviour
 
     private void UpdateHandPosition()
     {
-        if (HandIK == null) return;
+        if (LeftHandIK == null) return;
 
         var cam = _pickCamera != null ? _pickCamera : Camera.main;
         if (cam == null) return;
 
         var screen = Input.mousePosition;
         screen.z = _mouseWorldZ;
-        HandIK.position = cam.ScreenToWorldPoint(screen);
+        
+        // 切换手部位置
+        var worldPosition = cam.ScreenToWorldPoint(screen);
+        if (_heldItem == null)
+        {
+            if (worldPosition.x < SwitchHandPosition.position.x)
+            {
+                // 使用左手
+                _currentIKHolder = LeftHandIK;
+                RightHandIK.position = DefaultRightHandPosition.position;
+            }
+            else
+            {
+                // 使用右手
+                _currentIKHolder = RightHandIK;
+                LeftHandIK.position = DefaultLeftHandPosition.position;
+            }
+            
+            _currentIKHolder.position = worldPosition;
+        }
+        else
+        {
+            _currentIKHolder.position = worldPosition;
+        }
     }
 
     private void UpdatePickupInput()
@@ -93,9 +124,9 @@ public class MainCharacter : MonoBehaviour
 
         _heldItem.Pickup();
 
-        if (HandIK != null)
+        if (_currentIKHolder != null)
         {
-            _heldItem.transform.SetParent(HandIK, true);
+            _heldItem.transform.SetParent(_currentIKHolder, true);
             _heldItem.transform.localPosition = _holdLocalOffset;
             _heldItem.transform.localRotation = Quaternion.identity;
             _heldItem.transform.localScale = Vector3.one;

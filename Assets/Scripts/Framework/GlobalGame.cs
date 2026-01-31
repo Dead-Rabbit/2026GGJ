@@ -10,13 +10,12 @@ public class GlobalGame : SingletonMono<GlobalGame>
     public void Start()
     {
         TaskManager = new TaskManager();
+        TaskManager.Init();
     }
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            TaskManager?.StartTask("Burn1");
-        }
+        var dt = Time.deltaTime;
+        TaskManager.OnUpdate(dt);
     }
 }

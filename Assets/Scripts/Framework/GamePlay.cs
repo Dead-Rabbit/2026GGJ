@@ -22,6 +22,8 @@ namespace Framework
         public void Awake()
         {
             Instance = this;
+            
+            var gameGlobal = GlobalGame.Instance;
         }
 
         public void Start()

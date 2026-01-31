@@ -1,19 +1,26 @@
+using System.Collections.Generic;
+
 namespace Framework.Task
 {
     public class TaskManager
     {
-        public TaskInstance CurrentTask = null;
-        
-        public void StartTask(string taskId)
+        public List<TaskInfo> TaskList = new();
+
+        public void Init()
         {
-            if (CurrentTask != null)
+            TaskList.Add(new CandleTaskInfo());
+        }
+
+        public void OnUpdate(float dt)
+        {
+            foreach (var taskInfo in TaskList)
             {
-                return;
-            }
-            
-            if (!TaskConfig.TaskCfg.TryGetValue(taskId, out var taskCfgData))
-            {
-                return;
+                if (!taskInfo.IsTaskActive && taskInfo.CanEnter())
+                {
+                    taskInfo.Enter();
+                }
+                
+                taskInfo.OnUpdate(dt);
             }
         }
     }
