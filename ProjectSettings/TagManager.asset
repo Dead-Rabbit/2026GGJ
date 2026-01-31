@@ -8,10 +8,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Border
   - Water
   - UI
-  - 
+  - Character
   - 
   - 
   - 
@@ -40,4 +40,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 697900101
+    locked: 0
+  - name: CharacterBase
+    uniqueID: 4266051165
+    locked: 0
+  - name: Desktop
+    uniqueID: 701915037
+    locked: 0
+  - name: Character
+    uniqueID: 2642101915
+    locked: 0
+  - name: Item
+    uniqueID: 1381805855
     locked: 0

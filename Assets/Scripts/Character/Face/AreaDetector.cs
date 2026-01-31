@@ -27,9 +27,9 @@ public class AreaDetector : MonoBehaviour
     [Tooltip("按顺序检测，先命中的区域生效")]
     [SerializeField] private List<AreaDefinition> areas = new List<AreaDefinition>();
 
-    [Header("默认值")]
-    [Tooltip("不在任何区域内时的加权值")]
-    [SerializeField] private float defaultWeight = 0f;
+    // [Header("默认值")]
+    // [Tooltip("不在任何区域内时的加权值")]
+    // [SerializeField] private float defaultWeight = 0f;
 
     /// <summary> 获取当前所在区域索引；不在任何区域内返回 -1。 </summary>
     public int GetCurrentAreaIndex(Vector3 worldPosition)
@@ -48,8 +48,6 @@ public class AreaDetector : MonoBehaviour
         return -1;
     }
     
-    
-
     /// <summary> 射线法判断点是否在多边形内（XY 平面）。 </summary>
     public static bool ContainsPoint(List<Vector2> polygon, Vector2 point)
     {

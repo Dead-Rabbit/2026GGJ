@@ -25,15 +25,9 @@ namespace Framework
 
                     if (_instance == null)
                     {
-                        // GameObject root = GameObject.Find("SingletonMono");
-                        // if (root == null)
-                        //     return null;
-                        
                         GameObject go = new GameObject(typeof(T).ToString());
                         _instance = go.AddComponent(typeof(T)) as T;
                         DontDestroyOnLoad(go);
-                        
-                        // go.transform.parent = root.transform;
                     }
                 }
 
