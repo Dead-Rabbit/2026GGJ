@@ -14,4 +14,9 @@ public class GlobalEvent
     /// 玩法结束
     /// </summary>
     public JGameEvent OnEnd;
+    
+    /// <summary>
+    /// 摇铃生效
+    /// </summary>
+    public JGameEvent OnRattleWorlk;
 }

@@ -15,10 +15,8 @@ public class TaskPanelItem : MonoBehaviour
     {
         _taskInfo = taskInfo;
 
-        if (_taskInfo.GetDialogicData(out var dialogicData))
-        {
-            Title.SetText(dialogicData.ShortContent);
-        }
+        var dialogicData = _taskInfo.GetDialogicData();
+        Title.SetText(dialogicData.ShortContent);
     }
 
     public void Update()

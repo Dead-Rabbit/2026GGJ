@@ -15,6 +15,9 @@ public class GlobalConfig : MonoBehaviour
     [LabelText("区域0怀疑度")] public float DoubtArea0Value = 0;
     [LabelText("区域1怀疑度")] public float DoubtArea1Value = 0;
     [LabelText("区域外怀疑度")] public float OutDoubtAreaValue = 0;
+
+    [LabelText("特殊事件随机开始最小时间")] public float EventStartMinTime = 5;
+    [LabelText("特殊事件随机开始最大时间")] public float EventStartMaxTime = 10;
     
     [HideInInspector] public Dictionary<int, float> DoubtIncreaseConfig = new();
     

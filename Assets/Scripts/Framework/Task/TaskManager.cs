@@ -8,7 +8,10 @@ namespace Framework.Task
 
         public void Init()
         {
-            TaskList.Add(new CandleTaskInfo());
+            // TaskList.Add(new CandleTaskInfo());
+            TaskList.Add(new AnswerTaskInfo());
+            TaskList.Add(new WaiterTaskInfo());
+            // TaskList.Add(new EatTaskInfo());
         }
 
         public void OnUpdate(float dt)

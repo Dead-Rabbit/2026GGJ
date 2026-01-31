@@ -5,7 +5,7 @@ namespace Framework.Task
 {
     public class TaskInfo
     {
-        public int DialogicId = 1;
+        public virtual int DialogicId => 1;
         public virtual float DuringTime => 10;
         public virtual float FailedScore => 0;
         public virtual float SuccessScore => 0;
@@ -56,29 +56,28 @@ namespace Framework.Task
             }
         }
         
-        public bool GetDialogicData(out DialogicData dialogicData)
+        public DialogicData GetDialogicData()
         {
-            return DialogicConfig.DialogicCfg.TryGetValue(DialogicId, out dialogicData);
+            return DialogicConfig.DialogicCfg.GetValueOrDefault(DialogicId);
         }
 
         public void SetSuccess()
         {
-            // TODO 加分
-            
+            GamePlay.Instance.CurrentDoubtValue -= SuccessScore;
             Leave();
         }
         
         public void SetFailed()
         {
-            // TODO 扣分
-
+            GamePlay.Instance.CurrentDoubtValue += FailedScore;
             Leave();
         }
         
         public void Leave()
         {
             IsTaskActive = false;
-            
+
+            OnLeave();
         }
 
         public virtual void OnLeave()
