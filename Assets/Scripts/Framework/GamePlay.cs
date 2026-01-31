@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using Character.Face;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +11,9 @@ namespace Framework
         [LabelText("怀疑度进度条")] public Slider DoubtSlider;
         [LabelText("怀疑度")] public float CurrentDoubtValue = 0;
 
-        public void Awake()
-        {
-        }
+        [LabelText("对话框")] public DialogicPanel DialogicPanel;
+        
+        [HideInInspector] public List<DoubtAreaDetector> DoubtDetectors = new();
 
         public void Start()
         {
@@ -38,9 +39,17 @@ namespace Framework
                 return;
 
             var dt = Time.deltaTime;
+
+            var doubtSpeed = -GlobalConfig.Instance.DoubtRevertSpeed;
+            
+            // 各个器官的怀疑度
+            foreach (var doubtAreaDetector in DoubtDetectors)
+            {
+                doubtSpeed += doubtAreaDetector.CurrentDoubtSpeed;
+            }
             
             // 怀疑度掉落
-            CurrentDoubtValue -= dt * GlobalConfig.Instance.DoubtRevertSpeed;
+            CurrentDoubtValue += dt * doubtSpeed;
             CurrentDoubtValue = Mathf.Clamp(CurrentDoubtValue, 0, GlobalConfig.Instance.MaxDoubtValue);
             
             // 同步显示怀疑度

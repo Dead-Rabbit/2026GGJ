@@ -55,6 +55,9 @@ public class MudDropPoint : MonoBehaviour
     private Collider2D _collider2D;
     private Rigidbody2D _rb2d;
 
+    /// <summary> 单帧最大 deltaTime，避免切回窗口时因补偿时间导致瞬间加速下落。 </summary>
+    private const float MaxDeltaTime = 0.1f;
+
     private void Awake()
     {
         _collider2D = GetComponent<Collider2D>();
@@ -82,9 +85,11 @@ public class MudDropPoint : MonoBehaviour
         if (referenceCamera == null)
             referenceCamera = Camera.main;
 
+        float dt = Mathf.Min(Time.deltaTime, MaxDeltaTime);
+
         UpdateHoverWithRaycast();
-        UpdateDrag();
-        UpdateDescent();
+        UpdateDrag(dt);
+        UpdateDescent(dt);
         ApplyCenterToTransform();
     }
 
@@ -108,7 +113,7 @@ public class MudDropPoint : MonoBehaviour
         }
     }
 
-    private void UpdateDrag()
+    private void UpdateDrag(float dt)
     {
         if (referenceCamera == null) return;
 
@@ -133,30 +138,29 @@ public class MudDropPoint : MonoBehaviour
         {
             Vector3 mouseWorld = GetMouseWorldPosition();
             Vector3 target = mouseWorld - _dragOffset;
-            float dt = Time.deltaTime;
             float smooth = Mathf.Clamp01(1f - dragDamping);
             _currentCenter = Vector3.SmoothDamp(_currentCenter, target, ref _dragVelocity, dragSmoothTime * (1f / (smooth + 0.01f)), Mathf.Infinity, dt);
         }
     }
 
-    private void UpdateDescent()
+    private void UpdateDescent(float dt)
     {
         if (IsDragging) return;
 
         float seed = descentNoiseSeed != 0f ? descentNoiseSeed : GetInstanceID() * 0.01f;
-        _descentNoiseT += Time.deltaTime * descentNoiseScale;
+        _descentNoiseT += dt * descentNoiseScale;
 
         float t = Mathf.PerlinNoise(_descentNoiseT, seed);
         float speed = Mathf.Lerp(descentSpeedMin, descentSpeedMax, t);
 
         float driftT = Mathf.PerlinNoise(_descentNoiseT + 50f, seed + 0.5f);
         float drift = (driftT - 0.5f) * 2f;
-        float driftX = descentDriftSpeed > 0f ? drift * descentDriftSpeed * Time.deltaTime : 0f;
-        float downY = -speed * Time.deltaTime;
+        float driftX = descentDriftSpeed > 0f ? drift * descentDriftSpeed * dt : 0f;
+        float downY = -speed * dt;
 
         Vector3 delta = new Vector3(driftX, downY, 0f);
         Vector3 descentTarget = _currentCenter + delta;
-        _currentCenter = Vector3.SmoothDamp(_currentCenter, descentTarget, ref _descentVelocity, descentSmoothTime, Mathf.Infinity, Time.deltaTime);
+        _currentCenter = Vector3.SmoothDamp(_currentCenter, descentTarget, ref _descentVelocity, descentSmoothTime, Mathf.Infinity, dt);
     }
 
     private void ApplyCenterToTransform()
