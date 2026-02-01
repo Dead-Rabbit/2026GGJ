@@ -25,8 +25,8 @@ namespace Config
             {
                 2, new()
                 {
-                    DialogicContent = "我饿了，想吃煎饼",
-                    ShortContent = "摇铃叫服务生来吧",
+                    DialogicContent = "有点饿了上菜吧",
+                    ShortContent = "摇铃",
                 }
             },
             {
@@ -39,11 +39,26 @@ namespace Config
             {
                 4, new()
                 {
-                    DialogicContent = "问题1问题1问题1问题1问题1问题1",
+                    DialogicContent = "你是怎么过来的？",
                     ShortContent = "回答问题",
                     Options = new()
                     {
-                        "答案1", "答案2", "答案3", "答案4"
+                        "我不吃牛肉", "雨下的的很大", "开车来的", "我很好"
+                    },
+                    RightIndex = new List<int>()
+                    {
+                        2
+                    }
+                }
+            },
+            {
+                5, new()
+                {
+                    DialogicContent = "你吃牛肉吗",
+                    ShortContent = "回答问题",
+                    Options = new()
+                    {
+                        "我不吃牛肉", "屁股在树上", "我喜欢你", "雨下的很大"
                     },
                     RightIndex = new List<int>()
                     {
@@ -52,17 +67,32 @@ namespace Config
                 }
             },
             {
-                5, new()
+                6, new()
                 {
-                    DialogicContent = "问题2问题2问题2问题2问题2问题2",
-                    ShortContent = "回答问题2",
+                    DialogicContent = "你看起来不太好",
+                    ShortContent = "回答问题",
                     Options = new()
                     {
-                        "答案1", "答案2", "答案3", "答案4"
+                        "开车来的", "我很好", "对不起", "再见"
                     },
                     RightIndex = new List<int>()
                     {
-                        0
+                        1
+                    }
+                }
+            },
+            {
+                7, new()
+                {
+                    DialogicContent = "今天天气真好啊",
+                    ShortContent = "回答问题",
+                    Options = new()
+                    {
+                        "我这有伞", "窝要验牌", "我同意", "牌妹尤问题"
+                    },
+                    RightIndex = new List<int>()
+                    {
+                        2
                     }
                 }
             },

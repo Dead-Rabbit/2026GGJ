@@ -11,6 +11,9 @@ namespace Config
 
         public float DangerAreaScore = 30;
         public float KillAreaScore = 50;
+
+        public float CandleBurnMinTime = 10;
+        public float CandleBurnMaxTime = 15;
     }
 
     public class DiffConfig
@@ -27,20 +30,26 @@ namespace Config
                     MouthDropMax = 5f,
                     
                     DangerAreaScore = 30,
-                    KillAreaScore = 50
+                    KillAreaScore = 50,
+                    
+                    CandleBurnMinTime = 10,
+                    CandleBurnMaxTime = 15,
                 }
             },
             {
                 1, new()
                 {
-                    EyeDropMin = 12,
-                    EyeDropMax = 18,
+                    EyeDropMin = 7,
+                    EyeDropMax = 10,
                     
-                    MouthDropMin = 10,
-                    MouthDropMax = 15,
+                    MouthDropMin = 6,
+                    MouthDropMax = 9,
                     
                     DangerAreaScore = 20,
-                    KillAreaScore = 30
+                    KillAreaScore = 30,
+                    
+                    CandleBurnMinTime = 8,
+                    CandleBurnMaxTime = 14,
                 }
             },
             {
@@ -53,7 +62,23 @@ namespace Config
                     MouthDropMax = 15,
                     
                     DangerAreaScore = 30,
-                    KillAreaScore = 50
+                    KillAreaScore = 50,
+                    
+                    CandleBurnMinTime = 6,
+                    CandleBurnMaxTime = 15,
+                }
+            },
+            {
+                3, new ()
+                {
+                    EyeDropMin = 0,
+                    EyeDropMax = 0,
+                    
+                    MouthDropMin = 0,
+                    MouthDropMax = 0,
+                    
+                    DangerAreaScore = 0,
+                    KillAreaScore = 0,
                 }
             }
         };

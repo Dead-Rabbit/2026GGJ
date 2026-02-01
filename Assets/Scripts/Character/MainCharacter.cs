@@ -25,6 +25,12 @@ public class MainCharacter : MonoBehaviour
     [LabelText("右手捏位置")] public Transform RightHandHoldPosition;
     [LabelText("右手IK解算器")] public LimbSolver2D RightLimbSolver2D;
 
+    [Header("IK 过渡")]
+    [Tooltip("手部 IK 跟随目标位置的平滑时间，越小跟手越快，越大越柔和")]
+    [SerializeField] private float _ikSmoothTime = 0.06f;
+    [Tooltip("手回到默认位置时的平滑时间，可略大一些更自然")]
+    [SerializeField] private float _ikReturnSmoothTime = 0.12f;
+
     [Header("拾取")]
     [Tooltip("鼠标射线检测用的摄像机，空则用 Main")]
     [SerializeField] private Camera _pickCamera;
@@ -34,6 +40,8 @@ public class MainCharacter : MonoBehaviour
     [SerializeField] private Vector3 _holdLocalOffset = Vector3.zero;
 
     private PickableItem _heldItem;
+    private Vector3 _leftIKVelocity;
+    private Vector3 _rightIKVelocity;
     private Rigidbody2D _heldRigidbody;
     private bool _heldWasKinematic;
     private bool _heldWasSimulated;
@@ -49,46 +57,58 @@ public class MainCharacter : MonoBehaviour
 
     private void UpdateHandPosition()
     {
-        if (LeftHandIK == null) return;
+        if (LeftHandIK == null || RightHandIK == null) return;
 
         var cam = _pickCamera != null ? _pickCamera : Camera.main;
         if (cam == null) return;
 
         var screen = Input.mousePosition;
         screen.z = _mouseWorldZ;
-        
-        // 切换手部位置
         var worldPosition = cam.ScreenToWorldPoint(screen);
+
+        Vector3 defaultLeft = DefaultLeftHandPosition != null ? DefaultLeftHandPosition.position : LeftHandIK.position;
+        Vector3 defaultRight = DefaultRightHandPosition != null ? DefaultRightHandPosition.position : RightHandIK.position;
+
+        bool useLeft = worldPosition.x < SwitchHandPosition.position.x;
+
+        if (_heldItem != null && useLeft != _isLeftHold)
+        {
+            var newSocket = useLeft ? LeftHandHoldPosition : RightHandHoldPosition;
+            if (newSocket != null)
+            {
+                _heldItem.transform.SetParent(newSocket, true);
+                _heldItem.transform.localPosition = _holdLocalOffset;
+                _heldItem.transform.localRotation = Quaternion.identity;
+                _heldItem.transform.localScale = Vector3.one;
+            }
+        }
+
+        _isLeftHold = useLeft;
+        _currentIKHolder = useLeft ? LeftHandIK : RightHandIK;
+        _currentHolderSocket = useLeft ? LeftHandHoldPosition : RightHandHoldPosition;
+
+        float dt = Mathf.Min(Time.deltaTime, 0.1f);
+        float followSmooth = _ikSmoothTime;
+        float returnSmooth = _ikReturnSmoothTime;
+
+        Vector3 leftTarget = useLeft ? worldPosition : defaultLeft;
+        Vector3 rightTarget = useLeft ? defaultRight : worldPosition;
+
+        float leftSmooth = useLeft ? followSmooth : returnSmooth;
+        float rightSmooth = useLeft ? returnSmooth : followSmooth;
+
+        LeftHandIK.position = Vector3.SmoothDamp(LeftHandIK.position, leftTarget, ref _leftIKVelocity, leftSmooth, Mathf.Infinity, dt);
+        RightHandIK.position = Vector3.SmoothDamp(RightHandIK.position, rightTarget, ref _rightIKVelocity, rightSmooth, Mathf.Infinity, dt);
+
         if (_heldItem == null)
         {
             LeftHand?.gameObject.SetActive(true);
             LeftHand_HoldItem?.gameObject.SetActive(false);
             RightHand?.gameObject.SetActive(true);
             RightHand_HoldItem?.gameObject.SetActive(false);
-            
-            if (worldPosition.x < SwitchHandPosition.position.x)
-            {
-                // 使用左手
-                _isLeftHold = true;
-                _currentIKHolder = LeftHandIK;
-                _currentHolderSocket = LeftHandHoldPosition;
-                RightHandIK.position = DefaultRightHandPosition.position;
-            }
-            else
-            {
-                // 使用右手
-                _isLeftHold = false;
-                _currentIKHolder = RightHandIK;
-                _currentHolderSocket = RightHandHoldPosition;
-                LeftHandIK.position = DefaultLeftHandPosition.position;
-            }
-            
-            _currentIKHolder.position = worldPosition;
         }
         else
         {
-            _currentIKHolder.position = worldPosition;
-
             if (_isLeftHold)
             {
                 LeftHand?.gameObject.SetActive(false);

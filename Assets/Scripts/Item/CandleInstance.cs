@@ -18,6 +18,9 @@ public class CandleInstance : MonoBehaviour
     public void Start()
     {
         GamePlay.Instance.CandleInstanceList.Add(this);
+
+        MinBurnTime = GamePlay.Instance.DiffData.CandleBurnMinTime;
+        MaxBurnTime = GamePlay.Instance.DiffData.CandleBurnMaxTime;
         
         SetBurn(IsBurning);
     }

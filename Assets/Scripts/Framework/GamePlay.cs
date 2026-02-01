@@ -56,10 +56,10 @@ namespace Framework
 
         public void Start()
         {
+            // Cursor.visible = false;
+            
             IsActive = true;
             
-            GlobalEvent.Instance.OnStart?.Invoke();
-
             // 初始化怀疑度
             if (DoubtSlider != null)
             {
@@ -78,6 +78,11 @@ namespace Framework
                 return;
             
             UpdateDoubt();
+        }
+
+        public void OnDestroy()
+        {
+            // Cursor.visible = true;
         }
 
         public void FixedUpdate()

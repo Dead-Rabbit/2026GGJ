@@ -43,7 +43,7 @@ public class AnswerTaskInfo : TaskInfo
     
     public override void OnEnter()
     {
-        var dialogicList = new List<int>() { 4, 5 };
+        var dialogicList = new List<int>() { 4, 5, 6, 7 };
         _dialogicId = dialogicList[Random.Range(0, dialogicList.Count)];
         
         GamePlay.Instance.DialogicPanel.SetTaskInfo(this);
