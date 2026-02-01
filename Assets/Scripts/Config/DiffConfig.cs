@@ -14,6 +14,8 @@ namespace Config
 
         public float CandleBurnMinTime = 10;
         public float CandleBurnMaxTime = 15;
+
+        public bool bShowCursor = true;
     }
 
     public class DiffConfig
@@ -34,6 +36,8 @@ namespace Config
                     
                     CandleBurnMinTime = 10,
                     CandleBurnMaxTime = 15,
+                    
+                    bShowCursor = true,
                 }
             },
             {
@@ -50,6 +54,8 @@ namespace Config
                     
                     CandleBurnMinTime = 8,
                     CandleBurnMaxTime = 14,
+                    
+                    bShowCursor = true,
                 }
             },
             {
@@ -66,6 +72,8 @@ namespace Config
                     
                     CandleBurnMinTime = 6,
                     CandleBurnMaxTime = 15,
+                    
+                    bShowCursor = false,
                 }
             },
             {

@@ -4546,6 +4546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60bdcc111bda49eea5cd7143281565f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BackgroundAudio: {fileID: 8300000, guid: 60120f87d40237a499642b6018bfa6f7, type: 3}
+  _backgroundAudioSource: {fileID: 0}
   DoubtDetectors:
   - {fileID: 59733240}
   - {fileID: 364132676}

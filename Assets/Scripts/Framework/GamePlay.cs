@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Character.Face;
 using Config;
@@ -14,7 +14,11 @@ namespace Framework
     public class GamePlay : MonoBehaviour
     {
         public TaskManager TaskManager;
-        
+
+        [LabelText("背景音乐")] public AudioClip BackgroundAudio;
+        [LabelText("背景音源（空则用本物体上的 AudioSource）")]
+        [SerializeField] private AudioSource _backgroundAudioSource;
+
         [LabelText("怀疑列表")] public List<DoubtAreaDetector> DoubtDetectors = new();
         [LabelText("怀疑度进度条")] public Slider DoubtSlider;
         [LabelText("怀疑度")] public float CurrentDoubtValue = 0;
@@ -56,7 +60,7 @@ namespace Framework
 
         public void Start()
         {
-            // Cursor.visible = false;
+            Cursor.visible = DiffData.bShowCursor;
             
             IsActive = true;
             
@@ -70,6 +74,8 @@ namespace Framework
             
             TaskManager = new TaskManager();
             TaskManager.Init();
+
+            PlayBackgroundAudio();
         }
 
         public void Update()
@@ -82,7 +88,37 @@ namespace Framework
 
         public void OnDestroy()
         {
-            // Cursor.visible = true;
+            Cursor.visible = true;
+            StopBackgroundAudio();
+        }
+
+        /// <summary>
+        /// 播放背景音乐（若已配置 BackgroundAudio）。
+        /// </summary>
+        public void PlayBackgroundAudio()
+        {
+            if (BackgroundAudio == null) return;
+
+            var source = _backgroundAudioSource != null ? _backgroundAudioSource : GetComponent<AudioSource>();
+            if (source == null)
+            {
+                source = gameObject.AddComponent<AudioSource>();
+                _backgroundAudioSource = source;
+            }
+
+            source.clip = BackgroundAudio;
+            source.loop = true;
+            source.Play();
+        }
+
+        /// <summary>
+        /// 停止背景音乐。
+        /// </summary>
+        public void StopBackgroundAudio()
+        {
+            var source = _backgroundAudioSource != null ? _backgroundAudioSource : GetComponent<AudioSource>();
+            if (source != null && source.isPlaying)
+                source.Stop();
         }
 
         public void FixedUpdate()
