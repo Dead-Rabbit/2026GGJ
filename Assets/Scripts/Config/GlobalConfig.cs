@@ -21,18 +21,11 @@ public class GlobalConfig : MonoBehaviour
     [LabelText("特殊事件随机开始最小时间")] public float EventStartMinTime = 5;
     [LabelText("特殊事件随机开始最大时间")] public float EventStartMaxTime = 10;
     
-    [HideInInspector] public Dictionary<int, float> DoubtIncreaseConfig = new();
-    
     private static GlobalConfig _instance;
     public static GlobalConfig Instance => _instance;
 
     private void Awake()
     {
-        // 读入权重
-        DoubtIncreaseConfig.Add(0, DoubtArea0Value);
-        DoubtIncreaseConfig.Add(1, DoubtArea1Value);
-        DoubtIncreaseConfig.Add(-1, OutDoubtAreaValue);
-        
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);

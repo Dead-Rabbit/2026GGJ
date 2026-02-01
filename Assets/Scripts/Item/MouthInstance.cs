@@ -19,6 +19,13 @@ public class MouthInstance : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    public void Start()
+    {
+        var mudDrop = GetComponent<MudDropPoint>();
+        mudDrop.descentSpeedMin = GamePlay.Instance.DiffData.MouthDropMin;
+        mudDrop.descentSpeedMax = GamePlay.Instance.DiffData.MouthDropMax;
+    }
+
     public void Update()
     {
         if (isEating)

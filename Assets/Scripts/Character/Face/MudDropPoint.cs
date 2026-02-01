@@ -11,9 +11,9 @@ public class MudDropPoint : MonoBehaviour
 {
     [Header("下沉表演")]
     [Tooltip("下沉速度下限（单位/秒），与上限之间用连续随机插值")]
-    [SerializeField] private float descentSpeedMin = 0.2f;
+    [SerializeField] public float descentSpeedMin = 0.2f;
     [Tooltip("下沉速度上限（单位/秒）")]
-    [SerializeField] private float descentSpeedMax = 0.8f;
+    [SerializeField] public float descentSpeedMax = 0.8f;
     [Tooltip("左右漂移最大速度（单位/秒），0 表示不漂移；方向由连续随机决定")]
     [SerializeField] private float descentDriftSpeed = 0.15f;
     [Tooltip("速度随机变化快慢：值越大，速度随时间变化越频繁")]

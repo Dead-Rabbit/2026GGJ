@@ -63,13 +63,15 @@ namespace Framework.Task
 
         public void SetSuccess()
         {
+            GamePlay.Instance.TaskFailCombo = 0;
             GamePlay.Instance.CurrentDoubtValue -= SuccessScore;
             Leave();
         }
         
         public void SetFailed()
         {
-            GamePlay.Instance.CurrentDoubtValue += FailedScore;
+            GamePlay.Instance.TaskFailCombo += 1;
+            GamePlay.Instance.CurrentDoubtValue += FailedScore * GamePlay.Instance.TaskFailCombo;
             Leave();
         }
         

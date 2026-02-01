@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Framework;
 using Framework.Task;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class TaskPanel : MonoBehaviour
 
     public void Update()
     {
-        var taskList = GlobalGame.Instance.TaskManager.TaskList;
+        var taskList = GamePlay.Instance.TaskManager.TaskList;
         List<TaskInfo> activeTaskList = new();
         foreach (var taskInfo in taskList)
         {

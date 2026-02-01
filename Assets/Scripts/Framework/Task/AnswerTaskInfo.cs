@@ -10,7 +10,7 @@ public class AnswerTaskInfo : TaskInfo
     private int _dialogicId = 0;
 
     public override float DuringTime => 10;
-    public override float FailedScore => 150;
+    public override float FailedScore => 180;
         
     public override bool ShowInPanel => true;
 
@@ -18,7 +18,7 @@ public class AnswerTaskInfo : TaskInfo
     
     public override bool CanEnter()
     {
-        var taskList = GlobalGame.Instance.TaskManager.TaskList;
+        var taskList = GamePlay.Instance.TaskManager.TaskList;
         foreach (var taskInfo in taskList)
         {
             // 如果当前有吃饭任务正在进行

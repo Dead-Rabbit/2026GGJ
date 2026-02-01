@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Framework;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace Character.Face
             foreach (Transform targetTransform in TargetList)
             {
                 var index = _areaDetector.GetCurrentAreaIndex(targetTransform.position);
-                var speed = GlobalConfig.Instance.DoubtIncreaseConfig.GetValueOrDefault(index, 0.0f);
+                var speed = GamePlay.Instance.DoubtIncreaseConfig.GetValueOrDefault(index, 0.0f);
 
                 CurrentDoubtSpeed += speed;
             }

@@ -1,4 +1,5 @@
 using System;
+using Framework;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,6 +16,10 @@ public class EyeInstance : MonoBehaviour
     {
         _remainTime = Random.Range(EnterMoveMinTime, EnterMoveMaxTime);
         _animator = GetComponent<Animator>();
+
+        var mudDrop = GetComponent<MudDropPoint>();
+        mudDrop.descentSpeedMin = GamePlay.Instance.DiffData.EyeDropMin;
+        mudDrop.descentSpeedMax = GamePlay.Instance.DiffData.EyeDropMax;
     }
 
     public void FixedUpdate()

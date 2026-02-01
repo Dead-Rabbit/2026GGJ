@@ -67,11 +67,5 @@ namespace Config
                 }
             },
         };
-
-        #region Define
-        
-        
-
-        #endregion
     }
 }
