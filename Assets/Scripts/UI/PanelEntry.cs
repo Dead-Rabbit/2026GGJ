@@ -13,6 +13,6 @@ public class PanelEntry : MonoBehaviour
     /// </summary>
     public void EnterGameScene()
     {
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync(1);
     }
 }

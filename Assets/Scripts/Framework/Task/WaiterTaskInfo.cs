@@ -7,7 +7,7 @@ namespace Framework.Task
         public override int DialogicId => 2;
     
         public override float DuringTime => 10;
-        public override float FailedScore => 50;
+        public override float FailedScore => 150;
         
         public override bool ShowInPanel => true;
 
@@ -22,20 +22,13 @@ namespace Framework.Task
                     SetSuccess();
                     
                     // 召唤服务员
-                    GamePlay.Instance.DialogicPanel.SetHide(true);
+                    GamePlay.Instance.WaiterInstance?.Enter();
                 }
             };
         }
     
         public override bool CanEnter()
         {
-            // 倒计时
-            if (NextRunRemainTime > 0)
-            {
-                NextRunRemainTime -= Time.deltaTime;
-                return false;
-            }
-        
             var taskList = GlobalGame.Instance.TaskManager.TaskList;
             foreach (var taskInfo in taskList)
             {
@@ -47,6 +40,13 @@ namespace Framework.Task
                 
                     return false;
                 }
+            }
+
+            // 倒计时
+            if (NextRunRemainTime > 0)
+            {
+                NextRunRemainTime -= Time.deltaTime;
+                return false;
             }
 
             return true;
@@ -61,6 +61,8 @@ namespace Framework.Task
         {
             NextRunRemainTime = Random.Range(GlobalConfig.Instance.EventStartMinTime,
                 GlobalConfig.Instance.EventStartMaxTime);
+            
+            GamePlay.Instance.DialogicPanel.SetHide(true);
         }
     }
 }

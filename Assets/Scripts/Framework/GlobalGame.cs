@@ -16,6 +16,10 @@ public class GlobalGame : SingletonMono<GlobalGame>
     public void Update()
     {
         var dt = Time.deltaTime;
-        TaskManager.OnUpdate(dt);
+        
+        if (GamePlay.Instance?.IsActive ?? false)
+        {
+            TaskManager.OnUpdate(dt);
+        }
     }
 }

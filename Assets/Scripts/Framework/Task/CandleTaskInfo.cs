@@ -3,7 +3,7 @@ namespace Framework.Task
     public class CandleTaskInfo : TaskInfo
     {
         public override float DuringTime => 10;
-        public override float FailedScore => 50;
+        public override float FailedScore => 100;
         
         public override bool ShowInPanel => true;
         

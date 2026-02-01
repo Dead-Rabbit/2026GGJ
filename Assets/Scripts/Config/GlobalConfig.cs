@@ -5,6 +5,8 @@ using UnityEngine;
 public class GlobalConfig : MonoBehaviour
 {
     [LabelText("测试Pate")] public PateInstance TestPate;
+
+    [LabelText("游戏时长")] public float GameDuringTime = 120;
     
     /// <summary>
     /// 数值

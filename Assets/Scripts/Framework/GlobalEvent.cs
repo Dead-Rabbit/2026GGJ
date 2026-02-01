@@ -11,12 +11,18 @@ public class GlobalEvent
     public JGameEvent OnStart;
     
     /// <summary>
-    /// 玩法结束
-    /// </summary>
-    public JGameEvent OnEnd;
-    
-    /// <summary>
     /// 摇铃生效
     /// </summary>
     public JGameEvent OnRattleWorlk;
+    
+    /// <summary>
+    /// 吃饭
+    /// </summary>
+    public JGameEvent OnEatFood;
+    
+    /// <summary>
+    /// 玩法结束
+    /// </summary>
+    public JGameEvent OnSuccess;
+    public JGameEvent OnFail;
 }

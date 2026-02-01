@@ -101,8 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fire: {fileID: 9144326480686332412}
   IsBurning: 0
-  MinBurnTime: 5
-  MaxBurnTime: 10
+  MinBurnTime: 10
+  MaxBurnTime: 15
 --- !u!58 &6725560437337393802
 CircleCollider2D:
   m_ObjectHideFlags: 0

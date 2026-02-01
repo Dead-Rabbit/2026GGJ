@@ -7,6 +7,17 @@ public class EatTaskInfo : TaskInfo
     
     public override bool ShowInPanel => true;
 
+    public EatTaskInfo()
+    {
+        GlobalEvent.Instance.OnEatFood += () =>
+        {
+            if (IsTaskActive)
+            {
+                SetSuccess();
+            }
+        };
+    }
+
     public override bool CanEnter()
     {
         return true;

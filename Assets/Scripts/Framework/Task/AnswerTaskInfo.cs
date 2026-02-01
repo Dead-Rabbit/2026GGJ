@@ -10,7 +10,7 @@ public class AnswerTaskInfo : TaskInfo
     private int _dialogicId = 0;
 
     public override float DuringTime => 10;
-    public override float FailedScore => 50;
+    public override float FailedScore => 150;
         
     public override bool ShowInPanel => true;
 
@@ -18,13 +18,6 @@ public class AnswerTaskInfo : TaskInfo
     
     public override bool CanEnter()
     {
-        // 倒计时
-        if (NextRunRemainTime > 0)
-        {
-            NextRunRemainTime -= Time.deltaTime;
-            return false;
-        }
-        
         var taskList = GlobalGame.Instance.TaskManager.TaskList;
         foreach (var taskInfo in taskList)
         {
@@ -36,6 +29,13 @@ public class AnswerTaskInfo : TaskInfo
                 
                 return false;
             }
+        }
+
+        // 倒计时
+        if (NextRunRemainTime > 0)
+        {
+            NextRunRemainTime -= Time.deltaTime;
+            return false;
         }
 
         return true;
@@ -53,5 +53,7 @@ public class AnswerTaskInfo : TaskInfo
     {
         NextRunRemainTime = Random.Range(GlobalConfig.Instance.EventStartMinTime,
             GlobalConfig.Instance.EventStartMaxTime);
+                    
+        GamePlay.Instance.DialogicPanel.SetHide(true);
     }
 }

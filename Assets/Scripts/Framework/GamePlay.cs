@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Character.Face;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Framework
@@ -17,7 +19,15 @@ namespace Framework
 
         [LabelText("蜡烛列表")] public List<CandleInstance> CandleInstanceList = new();
 
+        [LabelText("服务员")] public WaiterInstance WaiterInstance;
+
+        [LabelText("剩余时间Text")] public TMP_Text Txt_RemainTime;
+
+        [HideInInspector] public float CurrentGameTime; 
+        
         public static GamePlay Instance;
+
+        public bool IsActive = false;
 
         public void Awake()
         {
@@ -28,6 +38,8 @@ namespace Framework
 
         public void Start()
         {
+            IsActive = true;
+            
             GlobalEvent.Instance.OnStart?.Invoke();
 
             // 初始化怀疑度
@@ -35,11 +47,35 @@ namespace Framework
             {
                 DoubtSlider.maxValue = GlobalConfig.Instance.MaxDoubtValue;
             }
+
+            CurrentGameTime = 0;
         }
 
         public void Update()
         {
+            if (!IsActive)
+                return;
+            
             UpdateDoubt();
+        }
+
+        public void FixedUpdate()
+        {
+            var dt = Time.fixedDeltaTime;
+            CurrentGameTime += dt;
+
+            if (CurrentGameTime >= GlobalConfig.Instance.GameDuringTime)
+            {
+                // 游戏结束
+                IsActive = false;
+                GlobalEvent.Instance.OnSuccess?.Invoke();
+                
+                SceneManager.LoadSceneAsync(2);
+
+                return;
+            }
+            
+            Txt_RemainTime?.SetText($"剩余时间: {(GlobalConfig.Instance.GameDuringTime - CurrentGameTime).ToString("F0") }s");
         }
 
         #region 怀疑度
@@ -65,6 +101,15 @@ namespace Framework
 
             // 同步显示怀疑度
             DoubtSlider.value = CurrentDoubtValue;
+
+            if (CurrentDoubtValue >= GlobalConfig.Instance.MaxDoubtValue)
+            {
+                // 游戏结束
+                IsActive = false;
+                GlobalEvent.Instance.OnFail?.Invoke();
+                
+                SceneManager.LoadSceneAsync(3);
+            }
         }
 
         #endregion

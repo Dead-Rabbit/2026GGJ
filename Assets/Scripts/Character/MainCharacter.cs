@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 
 public class MainCharacter : MonoBehaviour
 {
@@ -17,8 +18,12 @@ public class MainCharacter : MonoBehaviour
 
     [LabelText("左手模型")] public Transform LeftHand;
     [LabelText("左手模型_捏")] public Transform LeftHand_HoldItem;
+    [LabelText("左手捏位置")] public Transform LeftHandHoldPosition;
+    [LabelText("左手IK解算器")] public LimbSolver2D LeftLimbSolver2D;
     [LabelText("右手模型")] public Transform RightHand;
     [LabelText("右手模型_捏")] public Transform RightHand_HoldItem;
+    [LabelText("右手捏位置")] public Transform RightHandHoldPosition;
+    [LabelText("右手IK解算器")] public LimbSolver2D RightLimbSolver2D;
 
     [Header("拾取")]
     [Tooltip("鼠标射线检测用的摄像机，空则用 Main")]
@@ -33,6 +38,8 @@ public class MainCharacter : MonoBehaviour
     private bool _heldWasKinematic;
     private bool _heldWasSimulated;
     private Transform _currentIKHolder;
+    private Transform _currentHolderSocket;
+    private bool _isLeftHold = false;
 
     private void Update()
     {
@@ -54,16 +61,25 @@ public class MainCharacter : MonoBehaviour
         var worldPosition = cam.ScreenToWorldPoint(screen);
         if (_heldItem == null)
         {
+            LeftHand?.gameObject.SetActive(true);
+            LeftHand_HoldItem?.gameObject.SetActive(false);
+            RightHand?.gameObject.SetActive(true);
+            RightHand_HoldItem?.gameObject.SetActive(false);
+            
             if (worldPosition.x < SwitchHandPosition.position.x)
             {
                 // 使用左手
+                _isLeftHold = true;
                 _currentIKHolder = LeftHandIK;
+                _currentHolderSocket = LeftHandHoldPosition;
                 RightHandIK.position = DefaultRightHandPosition.position;
             }
             else
             {
                 // 使用右手
+                _isLeftHold = false;
                 _currentIKHolder = RightHandIK;
+                _currentHolderSocket = RightHandHoldPosition;
                 LeftHandIK.position = DefaultLeftHandPosition.position;
             }
             
@@ -72,6 +88,21 @@ public class MainCharacter : MonoBehaviour
         else
         {
             _currentIKHolder.position = worldPosition;
+
+            if (_isLeftHold)
+            {
+                LeftHand?.gameObject.SetActive(false);
+                LeftHand_HoldItem?.gameObject.SetActive(true);
+                RightHand?.gameObject.SetActive(true);
+                RightHand_HoldItem?.gameObject.SetActive(false);
+            }
+            else
+            {
+                LeftHand?.gameObject.SetActive(true);
+                LeftHand_HoldItem?.gameObject.SetActive(false);
+                RightHand?.gameObject.SetActive(false);
+                RightHand_HoldItem?.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -130,9 +161,9 @@ public class MainCharacter : MonoBehaviour
 
         _heldItem.Pickup();
 
-        if (_currentIKHolder != null)
+        if (_currentHolderSocket != null)
         {
-            _heldItem.transform.SetParent(_currentIKHolder, true);
+            _heldItem.transform.SetParent(_currentHolderSocket, true);
             _heldItem.transform.localPosition = _holdLocalOffset;
             _heldItem.transform.localRotation = Quaternion.identity;
             _heldItem.transform.localScale = Vector3.one;
@@ -155,9 +186,9 @@ public class MainCharacter : MonoBehaviour
         _heldItem = null;
     }
 
-    /// <summary> 当前是否正在持有物品。 </summary>
-    public bool IsHoldingItem => _heldItem != null;
+    #region 动画
 
-    /// <summary> 当前持有的物品，未持有时为 null。 </summary>
-    public PickableItem HeldItem => _heldItem;
+    
+
+    #endregion
 }
